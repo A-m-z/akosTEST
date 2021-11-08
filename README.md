@@ -1,3 +1,7 @@
+# What was added (FEATURES)
+I added an ID generation for each product since it will make all of the operations easier, I also implemented a delete function to delete unwanted posts.
+
+
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
