@@ -12,7 +12,6 @@ import Add from './components/Add.js'
 function App() {
   const [products,setProducts] = useState([]);
   useEffect(() => {
-    console.log('_' + Math.random().toString(32).substr(2));
     axios.get('https://a.nacapi.com/amz4akos/products/').then((res) => {
       console.log(res.data);
       setProducts(res.data);
@@ -20,6 +19,19 @@ function App() {
       console.log(err);
     })
   },[])
+  const sortBy = async (key) => {
+    console.log(products);
+    let newProducts = products;
+    console.log("old products:",products);
+    newProducts = await newProducts.sort((a,b) => {
+      if (parseInt(a[key]) > parseInt(b[key])) return 1;
+      if (parseInt(a[key]) < parseInt(b[key])) return -1;
+      return 0;
+    });
+    console.log("new products:",newProducts);
+    setProducts(newProducts);
+  }
+
   return (
     <Router>
       <NavLink exact to="" className="text-center">
@@ -37,8 +49,8 @@ function App() {
         </NavLink>
       </ul>
       <Routes>
-        <Route exact path="/view" element={<View products={products}/>}/>
-        <Route exact path="/delete" element={<Del products={products}/>}/>
+        <Route exact path="/view" element={<View products={products} sortBy={sortBy}/>}/>
+        <Route exact path="/delete" element={<Del products={products} sortBy={sortBy}/>}/>
         <Route exact path="/addnew" element={<Add products={products}/>}/>
       </Routes>
     </Router>

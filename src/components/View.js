@@ -1,7 +1,8 @@
 import axios from 'axios';
-import {useState} from 'react';
-export default function View({products}) {
+import {useState,useEffect} from 'react';
+export default function View({products,sortBy}) {
     const [editProduct,setEditProduct] = useState({});
+    const [randomTest,setRandomTest] = useState(false);
     const editAt = (property,value) => {
         console.log(property,value);
         let curProduct = editProduct;
@@ -26,13 +27,21 @@ export default function View({products}) {
           window.location.reload(false);
         })
     }
+    const callSort = async (key) => {
+       await sortBy(key);
+       setRandomTest(!randomTest);
+    }
+    useEffect(()=> {
+        console.log("used so it refreshes on props update!");
+        console.log(products);
+    },[products]);
     return (
         <>
         <h1>View</h1>
+        <h4>sort by: </h4>
+        {products.length && Object.keys(products[0]).map((key) => <button className="btn btn-sm btn-link" onClick={() => callSort(key)}>{key}</button>)}
         {products.map((product,ind)=>{
-            console.log(editProduct,Object.keys(editProduct).length);
             if (product.id == editProduct.id) {
-                console.log("in for loop..",editProduct);
                 return (
                     <div className="card">
                         <div className="card-body container">
@@ -45,6 +54,7 @@ export default function View({products}) {
                                 <div className="col">Discount: <input value={editProduct.Discount} type="number" onChange={(e) => editAt("Discount",e.target.value)}/></div>
                             </div>
                             <p>Pricing: <input value={editProduct.Pricing} type="text" onChange={(e) => editAt("Pricing",e.target.value)}/></p>
+                            <p>views: {product.userViews}</p>
                             <button className={`btn btn-success`} onClick={() => submitChanges()}>Confirm</button>
                         </div>
                     </div>
@@ -64,6 +74,7 @@ export default function View({products}) {
                             <div className="col">Discount: {product.Discount}</div>
                         </div>
                         <p>Pricing: {product.Pricing}</p>
+                        <p>views: {product.userViews}</p>
                         <button className={`btn btn-warning ${Object.keys(editProduct).length?"disabled":""} `} onClick={() => setEditProduct(product)}>Edit</button>
                     </div>
                 </div>

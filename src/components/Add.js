@@ -16,6 +16,7 @@ export default function Add({products}) {
             return;
         }
         product["id"] = '_' + Math.random().toString(32).substr(2);
+        product["userViews"] = Math.floor(Math.random()*1000);
         let newProducts = [...products,product]
         axios.put(`https://a.nacapi.com/amz4akos/products/`,newProducts).then((res) => {
             console.log("HOPEFULLY IT WORKED");

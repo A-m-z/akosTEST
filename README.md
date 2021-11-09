@@ -1,5 +1,7 @@
 # What was added (FEATURES)
 I added an ID generation for each product since it will make all of the operations easier, I also implemented a delete function to delete unwanted posts.
+Also implemented sorting for each product in the (view and edit)/(delete) list.
+also implemented a random views counter.
 
 
 # Getting Started with Create React App

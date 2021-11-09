@@ -1,7 +1,8 @@
 import axios from 'axios';
-import {useState} from 'react';
+import {useState,useEffect} from 'react';
 
-export default function Delete({products}) {
+export default function Delete({products,sortBy}) {
+    const [randomTest,setRandomTest] = useState(false);
     const deleteById = (id) => {
         console.log("DELETING ID:",id);
         // axios.delete(`https://a.nacapi.com/amz4akos/products/?id=${id}`).then((res) => {
@@ -26,9 +27,20 @@ export default function Delete({products}) {
           window.location.reload(false);
         })
     }
+    const callSort = async (key) => {
+        await sortBy(key);
+        setRandomTest(!randomTest);
+    }
+    useEffect(()=> {
+        console.log("used so it refreshes on props update!");
+        console.log(products);
+    },[products]);
+
     return (
         <>
         <h1>Delete</h1>
+        <h4>sort by: </h4>
+        {products.length && Object.keys(products[0]).map((key) => <button className="btn btn-sm btn-link" onClick={() => callSort(key)}>{key}</button>)}
         {products.map((product,ind)=>{
             return(
                 <div className="card">
@@ -44,6 +56,7 @@ export default function Delete({products}) {
                             <div className="col">Discount: {product.Discount}</div>
                         </div>
                         <p>Pricing: {product.Pricing}</p>
+                        <p>views: {product.userViews}</p>
                         <button className={`btn btn-danger`} onClick={() => deleteById(product.id)}>Delete</button>
                     </div>
                 </div>
